@@ -1,0 +1,29 @@
+version: '3.9'
+
+x-common: &common
+  restart: unless-stopped
+  env_file: .env
+
+x-app: &app
+  <<: *common
+  build: .
+  volumes:
+    - ./:/app
+  depends_on:
+    - postgres
+  links:
+    - postgres
+
+services:
+  app:
+    <<: *app
+    ports:
+      - 8001:8000
+    command: >
+      sh -c "python run.py"
+
+  postgres:
+    <<: *common
+    image: postgres:15.3-alpine
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data

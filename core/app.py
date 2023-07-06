@@ -1,10 +1,15 @@
 from flask import Flask
+from decouple import config
 
 from api.v1.hero.views import bp
 from core.db import db
 
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = config(
+    'DB_URI',
+    default='sqlite:///api.db'
+)
 
 db.init_app(app)
 db.app = app
