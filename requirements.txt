@@ -1,0 +1,7 @@
+ Flask==2.3.2
+ Flask-SQLAlchemy==3.0.5
+ python-decouple==3.8
+ psycopg2-binary==2.9.6
+ flask-marshmallow==0.15.0
+ marshmallow-sqlalchemy==0.29.0
+ flask-cors==4.0.0
