@@ -1,23 +1,28 @@
+from decouple import config, Csv
 from flask import Flask
-from decouple import config
+from flask_cors import CORS
 
-from api.v1.hero.views import bp
-from core.db import db
-
+from api.v1.hero.views import hero_bp
+from core.extensions import db
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = config(
-    'DB_URI',
+    'DB_URII',
     default='sqlite:///api.db'
 )
 
 db.init_app(app)
-db.app = app
 
-app.register_blueprint(bp)
+app.url_map.strict_slashes = False
+app.register_blueprint(hero_bp)
 
 with app.app_context():
     db.create_all()
+
+cors = CORS(app, resources={
+    r"/*": {"origins": config('CORS_ALLOWED_ORIGINS', cast=Csv(), default='')}
+})
 
 
 @app.teardown_request
