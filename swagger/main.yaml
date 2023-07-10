@@ -13,6 +13,7 @@ paths:
     get:
       tags:
         - hero
+      operationId: 'controllers.hero_controller.HeroController.list_heroes'
       summary: Получение списка героев
       description: Получение списка всех героев
       parameters:
@@ -33,6 +34,7 @@ paths:
     post:
       tags:
         - hero
+      operationId: 'controllers.hero_controller.HeroController.add_hero'
       summary: Добавление героя
       description: Добавление нового героя
       requestBody:
@@ -49,20 +51,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Hero'
         400:
-          description: Не корректый запрос
-  /{id}:
+          description: Не корректный запрос
+  /{hero_id}:
     get:
       tags:
         - hero
+      operationId: 'controllers.hero_controller.HeroController.hero_detail'
       summary: Получение героя
       description: Получение детальной информации о герое
       parameters:
-        - name: id
+        - name: hero_id
           in: path
           description: Идентификатор героя
           required: true
           schema:
             type: number
+            format: int64
 
       responses:
         200:
@@ -76,15 +80,17 @@ paths:
     put:
       tags:
         - hero
+      operationId: 'controllers.hero_controller.HeroController.update_hero'
       summary: Редактирование героя
       description: Редактирование существующего героя
       parameters:
-        - name: id
+        - name: hero_id
           in: path
           description: Идентификатор героя
           required: true
           schema:
             type: number
+            format: int64
       requestBody:
         description: Редактировать героя
         content:
@@ -105,15 +111,17 @@ paths:
     delete:
       tags:
         - hero
+      operationId: 'controllers.hero_controller.HeroController.delete_hero'
       summary: Удаление героя
       description: Удаление существующего героя героя
       parameters:
-        - name: id
+        - name: hero_id
           in: path
           description: Идентификатор героя
           required: true
           schema:
             type: number
+            format: int64
       responses:
         204:
           description: Герой
