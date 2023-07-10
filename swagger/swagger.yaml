@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Сервис для предоставления сведений о героях
+  description: Сервис для предоставления сведений о героях
+  version: 1.0.1
+servers:
+  - url: http://localhost:8001/api/v1/heroes
+tags:
+  - name: hero
+    description: Операции с героями
+paths:
+  /:
+    get:
+      tags:
+        - hero
+      summary: Получение списка героев
+      description: Получение списка всех героев
+      parameters:
+        - name: name
+          in: query
+          description: Фильтрация героев по имени
+          schema:
+            type: string
+      responses:
+        200:
+          description: Список героев
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hero'
+    post:
+      tags:
+        - hero
+      summary: Добавление героя
+      description: Добавление нового героя
+      requestBody:
+        description: Добавить героя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+      responses:
+        201:
+          description: Герой
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+        400:
+          description: Не корректый запрос
+  /{id}:
+    get:
+      tags:
+        - hero
+      summary: Получение героя
+      description: Получение детальной информации о герое
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор героя
+          required: true
+          schema:
+            type: number
+
+      responses:
+        200:
+          description: Герой
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+        404:
+          description: Герой не найден
+    put:
+      tags:
+        - hero
+      summary: Редактирование героя
+      description: Редактирование существующего героя
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор героя
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Редактировать героя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+      responses:
+        200:
+          description: Герой
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+        400:
+          description: Не корректый запрос
+        404:
+          description: Герой не найден
+    delete:
+      tags:
+        - hero
+      summary: Удаление героя
+      description: Удаление существующего героя героя
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор героя
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: Герой
+        404:
+          description: Герой не найден
+components:
+  schemas:
+    Hero:
+      type: object
+      description: Герой
+      properties:
+        id:
+          type: number
+          description: идентификатор
+          example: 10
+          readOnly: true
+        name:
+          type: string
+          example: 'hero'

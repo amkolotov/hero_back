@@ -25,7 +25,7 @@ def add_hero():
     try:
         hero = schema.load(request.json)
         hero.add()
-        return jsonify(schema.dump(hero))
+        return jsonify(schema.dump(hero)), 201
 
     except ValidationError as e:
         return jsonify(e.messages), 400
